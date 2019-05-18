@@ -2,7 +2,7 @@
 
 #include "gtest/gtest.h"
 
-#include "src/caf-net/router.hpp"
+#include "caf-net/router.hpp"
 
 #include "caf/all.hpp"
 #include "caf/io/all.hpp"

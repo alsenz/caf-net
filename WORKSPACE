@@ -24,10 +24,51 @@ http_archive(
     urls = ["https://github.com/google/googletest/archive/release-1.8.1.tar.gz"],
 )
 
+# Common
+http_archive(
+    name = "common",
+    strip_prefix = "common-master",
+    urls = ["https://github.com/alsenz/common/archive/master.zip"]
+)
+
 # Caf dependency
 http_archive(
     name = "libcaf",
     build_file = "@//external:libcaf.BUILD",
     strip_prefix = "actor-framework-0.16.3",
     urls = ["https://github.com/actor-framework/actor-framework/archive/0.16.3.tar.gz"],
+)
+
+# libpcre; needed for r3
+http_archive(
+    name = "pcre",
+    build_file = "@//external:pcre.BUILD",
+    strip_prefix = "libpcre-pcre-8.36",
+    urls = ["https://github.com/vmg/libpcre/archive/pcre-8.36.tar.gz"],
+)
+
+# R3 dependency
+http_archive(
+    name = "libr3",
+    build_file = "@//external:libr3.BUILD",
+    #sha256 = "db1fb91e51646e523e78b458643c0250231a2640488d5781109f95bd77c5eb82",
+    #strip_prefix = "r3-1.3.4",
+    strip_prefix = "r3-2.0",
+    urls = ["https://github.com/c9s/r3/archive/2.0.tar.gz"],
+)
+
+# For caf-net also
+http_archive(
+    name = "url_cpp",
+    build_file = "@//external:url-cpp.BUILD",
+    strip_prefix = "url-cpp-e884eac2ab8ef3b4a93333dd79df97650fbb45bf",
+    urls = ["https://github.com/seomoz/url-cpp/archive/e884eac2ab8ef3b4a93333dd79df97650fbb45bf.zip"],  # No releases, we'll just use this commit
+)
+
+# For caf-net: the http parser
+http_archive(
+    name = "node_http",
+    build_file = "@//external:node-http.BUILD",
+    strip_prefix = "http-parser-2.8.1",
+    urls = ["https://github.com/nodejs/http-parser/archive/v2.8.1.tar.gz"],
 )

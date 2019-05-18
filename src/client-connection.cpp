@@ -1,4 +1,4 @@
-#include "src/caf-net/client-connection.hpp"
+#include "client-connection.hpp"
 
 namespace as::net {
 

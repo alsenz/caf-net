@@ -2,7 +2,7 @@
 
 #include "caf/all.hpp"
 
-#include "src/caf-net/connection.hpp"
+#include "src/connection.hpp"
 
 TEST(ConnectionTests, TestNewConnectionAndClose) {
     //TODO just test basic setup and close down

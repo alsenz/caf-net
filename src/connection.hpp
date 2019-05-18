@@ -10,7 +10,7 @@
 #include "caf/all.hpp"
 #include "caf/io/all.hpp"
 
-#include "src/common/logger.hpp"
+#include "common/logger.hpp"
 
 #include "router.hpp"
 #include "response.hpp"

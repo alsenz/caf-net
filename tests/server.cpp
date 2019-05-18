@@ -6,7 +6,7 @@
 
 #include "caf/all.hpp"
 
-#include "src/caf-net/http-server.hpp"
+#include "caf-net/http-server.hpp"
 
 TEST(ServerTest, ServerStartStop) {
 

@@ -4,8 +4,8 @@
 
 #include "caf/all.hpp"
 
-#include "src/common/config.hpp"
-#include "src/common/logger.hpp"
+#include "common/config.hpp"
+#include "common/logger.hpp"
 
 #include "request.hpp"
 #include "response.hpp"

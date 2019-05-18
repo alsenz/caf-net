@@ -9,7 +9,7 @@
 #include "caf/all.hpp"
 #include "caf/io/all.hpp"
 
-#include "src/common/config.hpp"
+#include "common/config.hpp"
 
 #include "router.hpp"
 #include "acceptor.hpp"
