@@ -13,6 +13,8 @@ cc_library(
         "@node_http//:http_parser",
         "@url_cpp//:url-cpp",
     ],
+    strip_include_prefix = "src",
+    include_prefix = "caf-net"
 )
 
 cc_test(

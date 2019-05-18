@@ -11,7 +11,7 @@
 #include "url.h"
 #include "r3.h"
 
-#include "message.hpp"
+#include "caf-net/message.hpp"
 
 namespace as::net {
 

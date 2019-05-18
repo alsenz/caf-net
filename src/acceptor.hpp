@@ -3,8 +3,8 @@
 #include "caf/all.hpp"
 #include "caf/io/all.hpp"
 
-#include "router.hpp"
-#include "connection.hpp"
+#include "caf-net/router.hpp"
+#include "caf-net/connection.hpp"
 
 namespace as::net {
 

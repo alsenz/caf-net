@@ -10,8 +10,8 @@
 #include "caf/all.hpp"
 #include "r3.h"
 
-#include "request.hpp"
-#include "response.hpp"
+#include "caf-net/request.hpp"
+#include "caf-net/response.hpp"
 
 namespace as::net {
 

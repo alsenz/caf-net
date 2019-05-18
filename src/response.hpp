@@ -7,8 +7,8 @@
 
 #include "nlohmann/json.hpp"
 
-#include "message.hpp"
-#include "status.hpp"
+#include "caf-net/message.hpp"
+#include "caf-net/status.hpp"
 
 namespace as::net {
 

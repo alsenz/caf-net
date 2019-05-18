@@ -7,10 +7,10 @@
 #include "common/config.hpp"
 #include "common/logger.hpp"
 
-#include "request.hpp"
-#include "response.hpp"
-#include "client-connection.hpp"
-#include "connection.hpp"
+#include "caf-net/request.hpp"
+#include "caf-net/response.hpp"
+#include "caf-net/client-connection.hpp"
+#include "caf-net/connection.hpp"
 
 namespace as::net {
 

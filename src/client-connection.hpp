@@ -11,10 +11,10 @@
 
 #include "common/logger.hpp"
 
-#include "http-handler.hpp"
-#include "connection.hpp" //For MiB2b
-#include "request.hpp"
-#include "response.hpp"
+#include "caf-net/http-handler.hpp"
+#include "caf-net/connection.hpp" //For MiB2b
+#include "caf-net/request.hpp"
+#include "caf-net/response.hpp"
 
 
 namespace as::net {

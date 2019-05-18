@@ -1,4 +1,4 @@
-#include "rest-controller.hpp"
+#include "caf-net/rest-controller.hpp"
 
 namespace as::net {
 

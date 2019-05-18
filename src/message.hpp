@@ -10,9 +10,6 @@
 
 #include "caf/all.hpp"
 
-//TODO we need a URL class - don't know if we're gonna get one from:
-//https://github.com/nodejs/http-parser
-
 namespace as::net {
 
     //Base class for requests and responses

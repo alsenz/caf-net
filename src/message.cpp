@@ -1,4 +1,4 @@
-#include "message.hpp"
+#include "caf-net/message.hpp"
 
 namespace as::net {
 
