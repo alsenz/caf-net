@@ -1,12 +1,12 @@
 cc_library(
-    name = "net",
-    srcs = glob(["*.cpp"]),
-    hdrs = glob(["*.hpp"]),
+    name = "caf-net",
+    srcs = glob(["src/*.cpp"]),
+    hdrs = glob(["src/*.hpp"]),
     copts = ["-std=c++17"],
     linkopts = ["-lstdc++fs"],
     visibility = ["//visibility:public"],
     deps = [
-        "//src/common",
+        "@common",
         "@libcaf",
         "@libr3",
         "@nlohmann//:json",
@@ -21,7 +21,7 @@ cc_test(
     copts = ["-std=c++17"],
     linkopts = ["-lstdc++fs"],
     deps = [
-        ":net",
+        ":caf-net",
         "@gtest//:gtest_main",
     ],
 )
