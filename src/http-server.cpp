@@ -17,8 +17,8 @@ namespace as::net {
     }
 
     void http_server::stop() {
-        caf::anon_send_exit(_acceptor, caf::exit_reason::user_shutdown);
-        caf::anon_send_exit(_router, caf::exit_reason::user_shutdown);
+        caf::anon_send_exit(_acceptor, caf::exit_reason::kill);
+        caf::anon_send_exit(_router, caf::exit_reason::kill);
     }
 
     caf::strong_actor_ptr http_server::spawn_server() {

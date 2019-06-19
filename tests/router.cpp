@@ -49,6 +49,10 @@ TEST(RouterTests, TestSimpleRouting) {
     EXPECT_EQ(as::net::status_t::ok, router_fn(req1).value().status());
     //But this one isn't
     EXPECT_EQ(as::net::status_t::not_found, router_fn(req2).value().status());
+
+    caf::anon_send_exit(router, caf::exit_reason::kill);
+    caf::anon_send_exit(simple_actor, caf::exit_reason::kill);
+
 }
 
 simple_rest_behavior::behavior_type param_echo_endpoint(simple_rest_behavior::base *self) {
@@ -88,6 +92,11 @@ TEST(RouterTests, TestParameterRouting) {
     EXPECT_EQ("kerbobbins", router_fn(req2).value().body_view());
     EXPECT_EQ("in-query-name", router_fn(req3).value().body_view());
     EXPECT_EQ("no-param", router_fn(req4).value().body_view());
+
+
+    caf::anon_send_exit(router, caf::exit_reason::kill);
+    caf::anon_send_exit(simple_endpoint_ptr, caf::exit_reason::kill);
+    caf::anon_send_exit(echo_param_endpoint_ptr, caf::exit_reason::kill);
 }
 
 
