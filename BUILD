@@ -28,3 +28,16 @@ cc_test(
     ],
     visibility = ["//visibility:public"],
 )
+
+cc_library(
+    name = "lib-tests",
+    srcs = glob(["tests/*.cpp"]),
+    copts = ["-std=c++17"],
+    linkopts = ["-lstdc++fs"],
+    deps = [
+        ":caf-net",
+        "@gtest//:gtest_main",
+    ],
+    visibility = ["//visibility:public"],
+)
+
