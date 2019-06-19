@@ -26,4 +26,5 @@ cc_test(
         ":caf-net",
         "@gtest//:gtest_main",
     ],
+    visibility = ["//visibility:public"],
 )
