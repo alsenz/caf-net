@@ -9,13 +9,13 @@ namespace as::net {
     router_actor::behavior_type  router::make_behavior() {
         return {
                 [this](add_route_atom atom, const std::string &route, caf::strong_actor_ptr sap) { handle_add_route(atom, route, sap); },
-                [this](add_route_atom atom, request::method_t method, const std::string &route, caf::strong_actor_ptr sap) { handle_add_route(atom, route, sap, method); },
+                [this](add_route_atom atom, method_t method, const std::string &route, caf::strong_actor_ptr sap) { handle_add_route(atom, route, sap, method); },
                 [this](class request req) { return handle_request(req); }
         };
     }
 
     void router::handle_add_route(add_route_atom, const std::string &route, caf::strong_actor_ptr target,
-                                  request::method_t method) {
+                                  method_t method) {
         insert_route(route, method, target);
     }
 
@@ -48,29 +48,29 @@ namespace as::net {
             };
 
             auto final_error_fallback = [this, rp] (const caf::error &err) mutable {
-                std::cout << "Warning: unhandled error: " << system().render(err) << std::endl;
+                std::cout << "Warning: unhandled error: " << caf::to_string(err) << std::endl;
                 rp.deliver(net::response(net::status_t::internal_server_error));
             };
 
             //TODO make timeout configurable, and consistent with the timeout in the server...
             //TODO ensure that if we dispatch to something that can't handle it, we error nicely...
             switch(req.method()) {
-                case net::request::method_t::GET:
+                case net::method_t::GET:
                     this->request(target_actor, std::chrono::seconds(29), net::get_request(req)).then(cb, final_error_fallback);
                     break;
-                case net::request::method_t::DELETE:
+                case net::method_t::DELETE:
                     this->request(target_actor, std::chrono::seconds(29), net::delete_request(req)).then(cb, final_error_fallback);
                     break;
-                case net::request::method_t::HEAD:
+                case net::method_t::HEAD:
                     this->request(target_actor, std::chrono::seconds(29), net::head_request(req)).then(cb, final_error_fallback);
                     break;
-                case net::request::method_t::OPTIONS:
+                case net::method_t::OPTIONS:
                     this->request(target_actor, std::chrono::seconds(29), net::options_request(req)).then(cb, final_error_fallback);
                     break;
-                case net::request::method_t::POST:
+                case net::method_t::POST:
                     this->request(target_actor, std::chrono::seconds(29), net::post_request(req)).then(cb, final_error_fallback);
                     break;
-                case net::request::method_t::PUT:
+                case net::method_t::PUT:
                     this->request(target_actor, std::chrono::seconds(29), net::put_request(req)).then(cb, final_error_fallback);
                     break;
             }
@@ -115,7 +115,7 @@ namespace as::net {
         }
     }
 
-    void router::insert_route(const std::string &path_template, request::method_t method, caf::strong_actor_ptr target) {
+    void router::insert_route(const std::string &path_template, method_t method, caf::strong_actor_ptr target) {
         target_holder holder(new caf::strong_actor_ptr(std::move(target))); //Create a copy ... little laborious but needed to work with the clib!
         _route_definitions.emplace(path_template, std::make_tuple(method, std::move(holder)));
         compile_tree();
@@ -142,7 +142,7 @@ namespace as::net {
         }
     }
 
-    std::optional<router::route_match> router::match_route(const std::string &path, request::method_t method) {
+    std::optional<router::route_match> router::match_route(const std::string &path, method_t method) {
         int r3_method = static_cast<int>(method); //This works because enum compatibility
         std::unique_ptr<match_entry, match_entry_deleter> match_entry_ptr(match_entry_createl(path.c_str(), path.length()));
         match_entry_ptr->request_method = r3_method;

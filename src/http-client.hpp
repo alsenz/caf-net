@@ -54,7 +54,7 @@ namespace as::net {
 
             auto eptr = sys.middleman().backend().new_tcp_scribe(req.host(), req.port());
             if (!eptr) {
-                const auto msg = sys.render(eptr.error());
+                const auto msg = caf::to_string(eptr.error());
                 return net::response(status_t::network_connect_timeout_error, {{"error",  msg}});
             }
 

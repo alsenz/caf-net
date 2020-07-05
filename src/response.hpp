@@ -7,6 +7,7 @@
 
 #include "nlohmann/json.hpp"
 
+#include "caf-net/net-typeids.hpp"
 #include "caf-net/message.hpp"
 #include "caf-net/status.hpp"
 

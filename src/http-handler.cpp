@@ -19,7 +19,8 @@ void as::net::http_handler::handle_new_data_msg(const caf::io::new_data_msg &ndm
     if (_parser_invalidated) {
         reset_http_parser();
     }
-    http_parser_execute(_parser.get(), _parser_settings.get(), ndm.buf.data(), ndm.buf.size());
+    // This reinterpret cast should always be ok - classic char buf vs. byte buf issue!
+    http_parser_execute(_parser.get(), _parser_settings.get(), reinterpret_cast<const char *>(ndm.buf.data()), ndm.buf.size());
 }
 
 int as::net::http_handler::on_headers_complete_impl() {

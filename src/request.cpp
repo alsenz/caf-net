@@ -5,19 +5,19 @@ namespace as::net {
     request::request() : _url(""), _method(method_t::GET), _num_redirects_allowed(0) {}
 
     //TODO improve URL handling here - this doesn't seem to work if the scheme is missing!
-    request::request(const std::string &req_url, request::method_t method) : _url(""), _method(method), _num_redirects_allowed(0) {
+    request::request(const std::string &req_url, method_t method) : _url(""), _method(method), _num_redirects_allowed(0) {
         url(req_url); //The method evaluate sets a few extra things up.
     }
 
-    request::method_t request::method() const {
+    method_t request::method() const {
         return _method;
     }
 
-    request::method_t &request::method() {
+    method_t &request::method() {
         return _method;
     }
 
-    void request::method(request::method_t method) {
+    void request::method(method_t method) {
         _method = method;
     }
 
@@ -115,19 +115,19 @@ namespace as::net {
     }
 
 
-    std::string to_string(request::method_t m) {
+    std::string to_string(method_t m) {
         switch(m) {
-            case request::method_t::GET:
+            case method_t::GET:
                 return "GET";
-            case request::method_t::OPTIONS:
+            case method_t::OPTIONS:
                 return "OPTIONS";
-            case request::method_t::HEAD:
+            case method_t::HEAD:
                 return "HEAD";
-            case request::method_t::DELETE:
+            case method_t::DELETE:
                 return "DELETE";
-            case request::method_t::POST:
+            case method_t::POST:
                 return "POST";
-            case request::method_t::PUT:
+            case method_t::PUT:
                 return "PUT";
         }
         return "GET";

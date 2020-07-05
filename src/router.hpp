@@ -10,16 +10,15 @@
 #include "caf/all.hpp"
 #include "r3.h"
 
+#include "caf-net/net-typeids.hpp"
 #include "caf-net/request.hpp"
 #include "caf-net/response.hpp"
 
 namespace as::net {
 
-    using add_route_atom = caf::atom_constant<caf::atom("routeadd")>;
-
     using router_actor = caf::typed_actor<
-            caf::reacts_to<add_route_atom , std::string, caf::strong_actor_ptr>,
-            caf::reacts_to<add_route_atom , request::method_t, std::string, caf::strong_actor_ptr>,
+            caf::reacts_to<add_route_atom, std::string, caf::strong_actor_ptr>,
+            caf::reacts_to<add_route_atom, method_t, std::string, caf::strong_actor_ptr>,
             caf::replies_to<request>::with<response>
             >;
 
@@ -44,7 +43,7 @@ public:
 protected:
 
     //Actor behavior
-    void handle_add_route(add_route_atom, const std::string &route, caf::strong_actor_ptr target, request::method_t method = request::method_t::GET);
+    void handle_add_route(add_route_atom, const std::string &route, caf::strong_actor_ptr target, method_t method = method_t::GET);
 
     //Actor behavior
     auto handle_request(class request req)  -> caf::result<net::response>;
@@ -64,16 +63,16 @@ private:
     };
 
     using target_holder = std::unique_ptr<caf::strong_actor_ptr>;
-    using route_def = std::tuple<net::request::method_t, target_holder>;
+    using route_def = std::tuple<net::method_t, target_holder>;
 
     //! Parses url parameters and reinserts them into the request
     void parse_url_params(net::request &req);
 
-    void insert_route(const std::string &path_template, request::method_t method, caf::strong_actor_ptr target);
+    void insert_route(const std::string &path_template, method_t method, caf::strong_actor_ptr target);
 
     void compile_tree();
 
-    std::optional<route_match> match_route(const std::string &path, request::method_t method = request::method_t::GET);
+    std::optional<route_match> match_route(const std::string &path, method_t method = method_t::GET);
 
     std::string _server_name;
     std::unique_ptr<r3node, r3_tree_deleter> _r3_tree;

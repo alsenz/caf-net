@@ -11,14 +11,15 @@
 #include "url.h"
 #include "r3.h"
 
+#include "caf-net/net-typeids.hpp"
 #include "caf-net/message.hpp"
 
 namespace as::net {
 
+    enum class method_t : int {GET = METHOD_GET, PUT = METHOD_PUT, POST = METHOD_POST, HEAD = METHOD_HEAD, DELETE = METHOD_DELETE, OPTIONS = METHOD_OPTIONS};
+
     class request : public message {
     public:
-
-        enum class method_t : int {GET = METHOD_GET, PUT = METHOD_PUT, POST = METHOD_POST, HEAD = METHOD_HEAD, DELETE = METHOD_DELETE, OPTIONS = METHOD_OPTIONS};
 
         request();
 
@@ -78,7 +79,7 @@ namespace as::net {
     };
 
 
-    std::string to_string(request::method_t m);
+    std::string to_string(method_t m);
 
     //NOTE & WARNING: If the request is a filebody request, the file descriptor will be lost through serialisation.
     //So it's vital that requests that may be filebody requests are only routed locally, and that filebodies are handled close

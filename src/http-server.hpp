@@ -11,6 +11,7 @@
 
 #include "common/config.hpp"
 
+#include "caf-net/net-typeids.hpp"
 #include "caf-net/router.hpp"
 #include "caf-net/acceptor.hpp"
 
@@ -45,7 +46,7 @@ namespace as::net {
         template <class C, caf::spawn_options Os = caf::no_spawn_options, class... Ts>
         auto spawn_on_route(const std::string &route, Ts&&... xs) -> caf::infer_handle_from_class_t<C> {
             auto worker = _system.spawn<C, Os, Ts...>(xs...);
-            caf::anon_send(_router, net::add_route_atom::value, route, caf::actor_cast<caf::strong_actor_ptr>(worker));
+            caf::anon_send(_router, add_route_atom_v, route, caf::actor_cast<caf::strong_actor_ptr>(worker));
             static_cast<router *>(caf::actor_cast<caf::abstract_actor *>(_router))->link_to(worker);
             return worker;
         }
@@ -53,7 +54,7 @@ namespace as::net {
         template <caf::spawn_options Os = caf::no_spawn_options, class F, class... Ts>
         auto spawn_on_route(F fun, const std::string &route, Ts&&... xs) -> caf::infer_handle_from_fun_t<F> {
             auto worker = _system.spawn<Os, F, Ts...>(fun, std::move(xs)...);
-            caf::anon_send(_router, net::add_route_atom::value, route, caf::actor_cast<caf::strong_actor_ptr>(worker));
+            caf::anon_send(_router, add_route_atom_v, route, caf::actor_cast<caf::strong_actor_ptr>(worker));
             static_cast<router *>(caf::actor_cast<caf::abstract_actor *>(_router))->link_to(worker);
             return worker;
         }
