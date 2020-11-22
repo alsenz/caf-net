@@ -27,8 +27,8 @@ http_archive(
 # Common
 http_archive(
     name = "common",
-    strip_prefix = "common-ec15fee37c7be312ab910d1aa09f4c4cb4ae26b3",
-    urls = ["https://github.com/alsenz/common/archive/ec15fee.zip"],
+    strip_prefix = "common-1a633941c87c90527f228a96b075924094ad19ad",
+    urls = ["https://github.com/alsenz/common/archive/1a63394.zip"],
 )
 
 # Caf dependency
