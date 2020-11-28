@@ -2,7 +2,7 @@
 
 #include "caf/all.hpp"
 
-#include "caf-net/connection.hpp"
+#include "dandelion/connection.hpp"
 
 TEST(ConnectionTests, TestNewConnectionAndClose) {
     //TODO just test basic setup and close down

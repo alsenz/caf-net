@@ -8,7 +8,7 @@
 
 #include "caf/io/all.hpp"
 
-#include "caf-net/status.hpp"
+#include "status.hpp"
 
 namespace as::net {
 

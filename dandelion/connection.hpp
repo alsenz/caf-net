@@ -12,9 +12,9 @@
 
 #include "common/logger.hpp"
 
-#include "caf-net/router.hpp"
-#include "caf-net/response.hpp"
-#include "caf-net/http-handler.hpp"
+#include "router.hpp"
+#include "response.hpp"
+#include "http-handler.hpp"
 
 namespace as::net {
 

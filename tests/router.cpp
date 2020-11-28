@@ -2,7 +2,8 @@
 
 #include "gtest/gtest.h"
 
-#include "caf-net/router.hpp"
+#include "dandelion/router.hpp"
+#include "dandelion/net-typeids.hpp"
 
 #include "caf/all.hpp"
 #include "caf/io/all.hpp"
@@ -30,7 +31,7 @@ TEST(RouterTests, TestSimpleRouting) {
     auto simple_actor_ptr = caf::actor_cast<caf::strong_actor_ptr>(simple_actor);
 
     //Syncronously send an 'add'
-    router_fn(as::net::add_route_atom::value, "/widgets/bobbins", simple_actor_ptr);
+    router_fn(as::net::add_route_atom_v, "/widgets/bobbins", simple_actor_ptr);
 
     auto req1 = as::net::request("http://www.example.com/widgets/bobbins");
     auto req2 = as::net::request("http://www.example.com/wodgets/bobbins");
@@ -42,7 +43,7 @@ TEST(RouterTests, TestSimpleRouting) {
     EXPECT_EQ(as::net::status_t::not_found, router_fn(req3).value().status());
 
     //Add a route for snark
-    router_fn(as::net::add_route_atom::value, "/widgets/snark", simple_actor_ptr);
+    router_fn(as::net::add_route_atom_v, "/widgets/snark", simple_actor_ptr);
 
     EXPECT_EQ(as::net::status_t::ok, router_fn(req3).value().status());
     //And this one is still found
@@ -79,9 +80,9 @@ TEST(RouterTests, TestParameterRouting) {
     auto simple_endpoint_ptr = caf::actor_cast<caf::strong_actor_ptr >(system.spawn(simple_endpoint_behavior));
     auto echo_param_endpoint_ptr = caf::actor_cast<caf::strong_actor_ptr >(system.spawn(param_echo_endpoint));
 
-    router_fn(as::net::add_route_atom::value, "/widgets/list", simple_endpoint_ptr);
-    router_fn(as::net::add_route_atom::value, "/widgets/{name}/info", echo_param_endpoint_ptr);
-    router_fn(as::net::add_route_atom::value, "/widgets/info", echo_param_endpoint_ptr);
+    router_fn(as::net::add_route_atom_v, "/widgets/list", simple_endpoint_ptr);
+    router_fn(as::net::add_route_atom_v, "/widgets/{name}/info", echo_param_endpoint_ptr);
+    router_fn(as::net::add_route_atom_v, "/widgets/info", echo_param_endpoint_ptr);
 
     auto req1 = as::net::request("http://www.example.com/widgets/list");
     auto req2 = as::net::request("http://www.example.com/widgets/kerbobbins/info");

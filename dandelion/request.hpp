@@ -11,8 +11,8 @@
 #include "url.h"
 #include "r3.h"
 
-#include "caf-net/net-typeids.hpp"
-#include "caf-net/message.hpp"
+#include "net-typeids.hpp"
+#include "message.hpp"
 
 namespace as::net {
 

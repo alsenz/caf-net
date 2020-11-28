@@ -2,8 +2,8 @@
 
 #include "caf/all.hpp"
 
-#include "caf-net/request.hpp"
-#include "caf-net/response.hpp"
+#include "request.hpp"
+#include "response.hpp"
 
 
 namespace as::net {

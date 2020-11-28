@@ -1,4 +1,4 @@
-#include "caf-net/message.hpp"
+#include "dandelion/message.hpp"
 
 namespace as::net {
 

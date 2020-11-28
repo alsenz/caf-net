@@ -7,9 +7,9 @@
 
 #include "nlohmann/json.hpp"
 
-#include "caf-net/net-typeids.hpp"
-#include "caf-net/message.hpp"
-#include "caf-net/status.hpp"
+#include "net-typeids.hpp"
+#include "message.hpp"
+#include "status.hpp"
 
 namespace as::net {
 

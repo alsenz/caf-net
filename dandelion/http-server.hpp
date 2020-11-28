@@ -11,9 +11,9 @@
 
 #include "common/config.hpp"
 
-#include "caf-net/net-typeids.hpp"
-#include "caf-net/router.hpp"
-#include "caf-net/acceptor.hpp"
+#include "net-typeids.hpp"
+#include "router.hpp"
+#include "acceptor.hpp"
 
 namespace as::net {
 
