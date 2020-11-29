@@ -6,6 +6,7 @@
 #include <optional>
 #include <iostream>
 #include <tuple>
+#include <string_view>
 
 #include "caf/all.hpp"
 #include "r3.h"
@@ -72,7 +73,7 @@ private:
 
     void compile_tree();
 
-    std::optional<route_match> match_route(const std::string &path, method_t method = method_t::GET);
+    std::optional<route_match> match_route(std::string_view path, method_t method = method_t::GET);
 
     std::string _server_name;
     std::unique_ptr<r3node, r3_tree_deleter> _r3_tree;

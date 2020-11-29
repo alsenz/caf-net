@@ -12,6 +12,9 @@ TEST(ServerTest, ServerStartStop) {
 
     caf::actor_system_config cfg;
     cfg.load<caf::io::middleman>();
+    caf::exec_main_init_meta_objects<caf::id_block::caf_net>();
+    caf::core::init_global_meta_objects();
+    caf::io::middleman::init_global_meta_objects();
     caf::actor_system system{cfg};
 
     auto server = as::net::http_server(system);

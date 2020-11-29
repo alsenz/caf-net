@@ -24,6 +24,9 @@ simple_rest_behavior::behavior_type simple_endpoint_behavior(simple_rest_behavio
 TEST(RouterTests, TestSimpleRouting) {
 
     caf::actor_system_config cfg;
+    caf::exec_main_init_meta_objects<caf::id_block::caf_net>();
+    caf::core::init_global_meta_objects();
+    caf::io::middleman::init_global_meta_objects();
     caf::actor_system system{cfg};
     auto router = system.spawn<as::net::router>();
     auto router_fn = caf::make_function_view(router);
@@ -74,6 +77,9 @@ simple_rest_behavior::behavior_type param_echo_endpoint(simple_rest_behavior::ba
 TEST(RouterTests, TestParameterRouting) {
 
     caf::actor_system_config cfg;
+    caf::exec_main_init_meta_objects<caf::id_block::caf_net>();
+    caf::core::init_global_meta_objects();
+    caf::io::middleman::init_global_meta_objects();
     caf::actor_system system{cfg};
     auto router = system.spawn<as::net::router>();
     auto router_fn = caf::make_function_view(router);

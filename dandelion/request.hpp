@@ -6,13 +6,14 @@
 #include <type_traits>
 #include <cstdio>
 #include <ostream>
+#include <string_view>
 
 #include "nlohmann/json.hpp"
-#include "url.h"
 #include "r3.h"
 
 #include "net-typeids.hpp"
 #include "message.hpp"
+#include "url.hpp"
 
 namespace as::net {
 
@@ -32,11 +33,11 @@ namespace as::net {
 
         void method(method_t method);
 
-        const std::string &host() const;
+        std::string host() const;
 
-        unsigned int port() const;
+        uint16_t port() const;
 
-        const std::string &path() const;
+        std::string_view path() const;
 
         //Get a param. Note-- request does NOT parse param_str itself, the controller-list of this class must add_param's accordingly.
         //(In a typical net usage case, this is done by net::router, and includes params from the path)
@@ -46,17 +47,16 @@ namespace as::net {
 
         void emplace_param(const std::string &key, std::string &&value);
 
-        const std::string &query() const;
-
-        const std::string &fragment() const;
+        std::string_view fragment() const;
 
         std::string url() const;
 
+        const gnt::dln::uri &uri_impl() const;
+
+        gnt::dln::uri &uri_impl();
+
         // Note that this will also set the host header
         void url(const std::string &url);
-
-        // Note that this will also set the host header.
-        void url(std::string &&url);
 
         //! useful for serialisation
         std::unordered_map<std::string, std::string> &params();
@@ -72,7 +72,7 @@ namespace as::net {
 
     private:
 
-        Url::Url _url;
+        gnt::dln::url _url;
         std::unordered_map<std::string, std::string> _params;
         method_t _method;
         unsigned int _num_redirects_allowed; //Used by the client

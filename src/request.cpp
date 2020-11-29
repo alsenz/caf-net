@@ -1,11 +1,14 @@
 #include "dandelion/request.hpp"
 
+#include "common/variant-match.hpp"
+
 namespace as::net {
 
-    request::request() : _url(""), _method(method_t::GET), _num_redirects_allowed(0) {}
+    request::request() : _url(), _method(method_t::GET), _num_redirects_allowed(0) {}
 
     //TODO improve URL handling here - this doesn't seem to work if the scheme is missing!
-    request::request(const std::string &req_url, method_t method) : _url(""), _method(method), _num_redirects_allowed(0) {
+    request::request(const std::string &req_url, method_t method) : _url(gnt::dln::parse(req_url)), _method(method), _num_redirects_allowed(0) {
+        //TODO ensure that this is parsed right...
         url(req_url); //The method evaluate sets a few extra things up.
     }
 
@@ -21,20 +24,23 @@ namespace as::net {
         _method = method;
     }
 
-    const std::string &request::host() const {
-        return _url.host();
+    std::string request::host() const {
+        return _url.authority().host.apply<std::string>(std::match{
+            [](const std::string &host) { return host; },
+            [](const caf::ip_address &ip_addr) { return caf::to_string(ip_addr); }
+        });
     }
 
-    unsigned int request::port() const {
-        auto p = _url.port();
+    uint16_t request::port() const {
+        auto p = _url.authority().port;
         if(p == 0) {
             return 80;
         }
         return p;
     }
 
-    const std::string &request::path() const {
-        return _url.path();
+    std::string_view request::path() const {
+        return std::string_view(_url.path().data(), _url.path().size());
     }
 
     std::optional<std::string> request::param(const std::string &key) const {
@@ -53,26 +59,17 @@ namespace as::net {
         _params.emplace(key, std::move(value));
     }
 
-    const std::string &request::query() const {
-        return _url.query();
-    }
-
-    const std::string &request::fragment() const {
-        return _url.fragment();
+    std::string_view request::fragment() const {
+        return std::string_view(_url.fragment().data(), _url.fragment().size());
     }
 
     std::string request::url() const {
-        return _url.str();
+        return caf::to_string(_url);
     }
 
     void request::url(const std::string &url) {
-        _url.assign(Url::Url(url));
-        set_header("Host", _url.host());
-    }
-
-    void request::url(std::string &&url) {
-        _url.assign(Url::Url(std::move(url)));
-        set_header("Host", _url.host());
+        _url = gnt::dln::parse(url);
+        set_header("Host", host());
     }
 
     std::unordered_map<std::string, std::string> &request::params() {
@@ -92,7 +89,7 @@ namespace as::net {
     }
 
     void request::write(std::ostream &ostream, const std::string &http_version, const std::string &default_user_agent) const {
-        std::string path = _url.path();
+        std::string path = std::string(_url.path().data(), _url.path().size());
         if (path.empty() || path[path.length()] != '/') {
             path.append("/");
         }
@@ -100,7 +97,7 @@ namespace as::net {
         // We now need to write some extra headers if they're missing...
         auto full_headers = headers();
         if(!header("Host")) {
-            full_headers["Host"] = _url.host();
+            full_headers["Host"] = host();
         }
         if(!header("User-Agent")) {
             full_headers["User-Agent"] = default_user_agent;
@@ -112,6 +109,14 @@ namespace as::net {
             ostream << kvp.first << ": " << kvp.second << "\n";
         }
         ostream << "\r\n";
+    }
+
+    gnt::dln::uri &request::uri_impl() {
+        return _url;
+    }
+
+    const gnt::dln::uri &request::uri_impl() const {
+        return _url;
     }
 
 

@@ -81,38 +81,7 @@ namespace as::net {
 
     void router::parse_url_params(net::request &req) {
         //NB: this will need to be reviewed as it will probably need to be quite performant.
-        const auto &req_query = req.query();
-        enum class state {writing_key, writing_value};
-        state current_state = state::writing_key;
-        std::string current_key;
-        current_key.reserve(10);
-        std::string current_value;
-        current_value.reserve(10);
-        for(const char c : req_query) {
-            switch(c) {
-                case '&':
-                    req.params().insert(std::make_pair(current_key, current_value));
-                    current_key.clear();
-                    current_value.clear();
-                    current_state = state::writing_key;
-                    break;
-                case '=':
-                    current_state = state::writing_value;
-                    break;
-                default:
-                    switch(current_state) {
-                        case state::writing_key:
-                            current_key.append(1, c);
-                            break;
-                        case state::writing_value:
-                            current_value.append(1, c);
-                            break;
-                    }
-            }
-        }
-        if(current_key.length()) { //Last one won't have an '&'.
-            req.params().insert(std::make_pair(current_key, current_value));
-        }
+        req.params().insert(req.uri_impl().query().begin(), req.uri_impl().query().end());
     }
 
     void router::insert_route(const std::string &path_template, method_t method, caf::strong_actor_ptr target) {
@@ -142,9 +111,9 @@ namespace as::net {
         }
     }
 
-    std::optional<router::route_match> router::match_route(const std::string &path, method_t method) {
+    std::optional<router::route_match> router::match_route(std::string_view path, method_t method) {
         int r3_method = static_cast<int>(method); //This works because enum compatibility
-        std::unique_ptr<match_entry, match_entry_deleter> match_entry_ptr(match_entry_createl(path.c_str(), path.length()));
+        std::unique_ptr<match_entry, match_entry_deleter> match_entry_ptr(match_entry_createl(path.data(), path.length()));
         match_entry_ptr->request_method = r3_method;
         //Note: I think this is a ptr to something managed by the tree, so we don't need to delete it
         r3route *matched_route_ptr = r3_tree_match_route(_r3_tree.get(), match_entry_ptr.get());

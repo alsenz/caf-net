@@ -24,6 +24,7 @@ namespace as::net {
 
 } //ns as net
 
+//Fixme: make this dandelion_types
 CAF_BEGIN_TYPE_ID_BLOCK(caf_net, as::net::custom_type_block_start)
 
     CAF_ADD_ATOM(caf_net, as::net, add_route_atom)
