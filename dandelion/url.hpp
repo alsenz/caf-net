@@ -8,8 +8,6 @@
 #include "caf/all.hpp"
 #include "caf/uri.hpp"
 
-#include "url.h"
-
 #include "common/hash-combine.hpp"
 
 namespace gnt::dln {
